@@ -1,0 +1,44 @@
+{
+  "name": "module-timing",
+  "version": "0.0.0",
+  "description": "Measure module loading and output a breakdown tree allowing you to spot your slowest modules/files",
+  "main": "index.js",
+  "files": [
+    "lib"
+  ],
+  "scripts": {
+    "prepublishOnly": "npm run test",
+    "postpublish": "git push",
+    "test": "ava -s --verbose"
+  },
+  "ava": {
+    "files": [
+      "test/test.coffee"
+    ],
+    "babel": false,
+    "compileEnhancements": false,
+    "extensions": [
+      "coffee"
+    ],
+    "require": [
+      "coffee-register"
+    ]
+  },
+  "author": "danielkalen",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/danielkalen/module-timing"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "ava": "^1.0.0-beta.7"
+  },
+  "dependencies": {
+    "chalk": "^2.1.0",
+    "coffee-register": "^2.0.0",
+    "mem": "^3.0.1",
+    "print-tree": "github:danielkalen/print-tree",
+    "resolve": "^1.8.1",
+    "time-span": "^2.0.0"
+  }
+}
