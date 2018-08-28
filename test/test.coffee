@@ -1,4 +1,4 @@
-{test} = require 'ava'
+test = require 'ava'
 moduleTiming = require '../'
 
 test "name", (t)->
