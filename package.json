@@ -1,6 +1,6 @@
 {
   "name": "module-timing",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Measure module loading and output a breakdown tree allowing you to spot your slowest modules/files",
   "main": "index.js",
   "files": [
