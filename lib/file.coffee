@@ -102,9 +102,12 @@ determineName = (path)->
 		return [Path.relative(CWD, path), false]
 
 
-resolveModule = mem (path, parent)->
-	resolve.sync(path, basedir:parent.dir)
-, cacheKey: (path, parent)-> "#{parent.path}+#{path}"
+resolveModule = mem((path, parent)->
+	try
+		return resolve.sync(path, basedir:parent.dir, extensions:['.js','.json','.node','.coffee','.cson','.ts','.md','.txt'])
+	catch
+		return path
+, cacheKey: (path, parent)-> "#{parent.path}+#{path}")
 
 
 module.exports = File
