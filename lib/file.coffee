@@ -7,13 +7,14 @@ CACHE = {}
 
 
 class File
-	constructor: (path, parent)->
+	constructor: (path, @parent)->
 		@children = []
 		@durations = {}
 		@path = path
-		@path = resolveModule(path, parent) if parent
-		@dir = Path.dirname(@path)
+		@path = resolveModule(path, @parent) if @parent
 		[@name, @isExternal] = determineName(@path)
+		@dir = Path.dirname(@path)
+		@commondir = if @name.includes('/') then Path.dirname(@name) else @dir
 
 		if CACHE[@name]
 			return CACHE[@name]
@@ -29,6 +30,7 @@ class File
 		@durations[file.name] = duration
 
 	getOutput: (options, duration, depth=0, history=[])->
+		SHOW_CHILDREN = @children.length and (depth <= options.depth or (options.depth is false and not @isExternal))
 		duration = @calcDuration(duration)
 		o = {}
 		o.name = switch
@@ -41,11 +43,12 @@ class File
 				"#{chalk.blue pkg}"
 
 			else
-				"#{@name}"
+				name = @name.replace(@parent.commondir, (dir)-> chalk.dim(dir)) if @parent
+				"#{name or @name}"
 
-		o.name += " #{durationString(duration, options)}"
+		o.name += " #{durationString(duration, options, SHOW_CHILDREN)}"
 
-		if depth <= options.depth or (options.depth is false and not @isExternal)
+		if SHOW_CHILDREN
 			o.children = @children
 				.filter (child)-> not history.includes(child.path)
 				.map (child)=>
@@ -70,16 +73,18 @@ class File
 
 
 
-durationString = ({self, total}, options)->
+durationString = ({self, total}, options, SHOW_CHILDREN)->
 	self_ = self+'ms'
 	total_ = total+'ms'
-	switch
-		when total >= options.slow*1.5
-			return "#{chalk.dim self_}/#{chalk.red total_}"
-		when total >= options.slow
-			return "#{chalk.dim self_}/#{chalk.yellow total_}"
-		else
-			return "#{chalk.dim self_}/#{chalk.green total_}"
+	color = switch
+		when total >= options.slow*1.5 then 'red'
+		when total >= options.slow then 'yellow'
+		else 'green'
+	
+	if SHOW_CHILDREN
+		return chalk[color]("#{self_}/#{total_}")
+	else
+		return chalk[color](total_)
 
 
 normalizeTime = (time)-> switch
@@ -94,7 +99,7 @@ determineName = (path)->
 		lastSegment = segments[segments.length-1]
 		return [lastSegment, true]
 	else
-		return ['./'+Path.relative(CWD, path), false]
+		return [Path.relative(CWD, path), false]
 
 
 resolveModule = mem (path, parent)->

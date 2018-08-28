@@ -1,7 +1,8 @@
 var express = require('express')
 var cookieParser = require('cookie-parser')
+var server = require('./server');
 
-var app = express()
+var app = express(server)
 
 app.use(cookieParser())
 

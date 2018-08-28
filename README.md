@@ -16,13 +16,8 @@ require('module-timing').end() // end tracking and print tree to console
 ```
 
 Outputs:
-```bash
-└─ ./index.js 0ms/267ms
-     ├── bluebird 38ms/39ms
-     ├── ./app/index.js 3ms/228ms
-     │   ├── express 0.53ms/223ms
-     │   └── cookie-parser 1ms/2ms
-```
+![preview](example/preview.png?raw=true)
+
 
 ## API
 ### .start()

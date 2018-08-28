@@ -4,4 +4,4 @@ require('bluebird')
 app = require('./app')
 // app.listen(80)
 
-require('../').end({slow:200, depth:false}) // end tracking and print tree to console
+require('../').end({slow:250, depth:false}) // end tracking and print tree to console
