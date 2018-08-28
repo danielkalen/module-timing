@@ -1,6 +1,7 @@
 # module-timing
 [![NPM](https://img.shields.io/npm/v/module-timing.svg)](https://npmjs.com/package/module-timing)
 [![NPM](https://img.shields.io/npm/dm/module-timing.svg)](https://npmjs.com/package/module-timing)
+[![CircleCI](https://circleci.com/gh/danielkalen/module-timing/tree/master.svg?style=svg)](https://circleci.com/gh/danielkalen/module-timing/tree/master)
 
 Measure module loading (aka `require(...)` calls) and output a breakdown tree allowing you to spot your slowest modules/files.
 
